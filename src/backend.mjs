@@ -21,6 +21,11 @@ export async function getOffres() {
     }
 }
 
+export async function oneID(id) {
+    const oneRecord = await pb.collection('maison').getOne(id);
+    return oneRecord;
+}
+
 
 
 

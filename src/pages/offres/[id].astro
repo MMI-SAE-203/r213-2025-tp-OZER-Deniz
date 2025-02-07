@@ -1,13 +1,13 @@
 ---
-import { getOffre } from '../../backend.mjs';
-import { ... } from '../../layouts/Base.astro';
+import { oneID } from "../../backend.mjs";
+import Base from "../../layouts/Base.astro";
 
 const { id } = Astro.params;
-const offre = await getOffre(id);
+const offre = await oneID(id);
 ---
 
 <Base titre={offre.nomMaison}>
-    <h2>{offre.nomMaison}</offre>
+    <h2>{offre.nomMaison}</h2>
     <ul>
         <li>{offre.adresse}</li>
         ...
