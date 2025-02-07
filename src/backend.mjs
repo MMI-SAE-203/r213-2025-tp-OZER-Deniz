@@ -10,7 +10,7 @@ export async function getOffres() {
         });
 
         data = data.map((maison) => {
-            maison.imageUrl = `${db.baseURL}/api/files/maison/${maison.id}/${maison.image}`;
+            maison.image_maison_url = db.files.getURL(maison, maison.images);
             return maison;
         });
 
