@@ -1,18 +1,17 @@
 ---
-const offre = Astro.props;
+const { offre } = Astro.props;
+const imageUrl = `/pocketbase/files/${offre.id}/${offre.image}`;
 ---
 
-<div class="mt-20 px-4 max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <div class="bg-white shadow-lg rounded-2xl p-4 w-full max-w-sm">
-            <h2 class="text-xl font-semibold">{offre.nomMaison}</h2>
-            <img
-                class="w-full h-48 object-cover rounded-lg mt-2"
-                src={offre.image_maison_url}
-                alt={offre.nomMaison}
-            />
-        </div>
-    </div>
+<div class="p-4 bg-white shadow-md rounded-md">
+    <img
+        src={imageUrl}
+        alt="Image de {offre.nomMaison}"
+        class="w-full h-40 object-cover rounded-md mb-2"
+    />
+    <h3 class="text-lg font-bold">{offre.nomMaison}</h3>
+    <p class="text-sm text-gray-600">
+        {offre.prix}€ - {offre.nbChambres} chambres, {offre.nbSdb} salles de bain
+    </p>
+    <p class="text-sm text-gray-600">{offre.surface}m²</p>
 </div>
-
-<a href={`/offres/${offre.id}`}>Voir plus</a>

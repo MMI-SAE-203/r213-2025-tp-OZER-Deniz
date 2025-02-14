@@ -1,31 +1,40 @@
 // Deniz Ozer C1
 
 import PocketBase from 'pocketbase';
-const db = new PocketBase('http://127.0.0.1:8090');
+const pb = new PocketBase('http://127.0.0.1:8090');
 
-export async function getOffres() {
+
+export async function addOffre(house) {
     try {
-        let data = await db.collection('maison').getFullList({
-            sort: '-created',
-        });
-
-        data = data.map((maison) => {
-            maison.image_maison_url = db.files.getURL(maison, maison.images);
-            return maison;
-        });
-
-        return data;
+        await pb.collection('maison').create(house);
+        return { success: true, message: 'Offre ajoutée avec succès' };
     } catch (error) {
-        console.log('Une erreur est survenue en lisant la liste des maisons', error);
-        return [];
+        console.error('Erreur lors de lajout de la maison:', error);
+        return { success: false, message: 'Une erreur est survenue en ajoutant la maison' };
     }
 }
 
-export async function oneID(id) {
-    const oneRecord = await pb.collection('maison').getOne(id);
-    return oneRecord;
-}
 
+export async function filterByPrix(prixMin, prixMax) {
+    try {
+        if (prixMin <= 0 || prixMax <= 0 || prixMax < prixMin) {
+            throw new Error('Valeurs invalides pour le filtrage du prix.');
+        }
+
+        let data = await pb.collection('maison').getFullList({
+            sort: '-created',
+            filter: `prix >= ${prixMin} && prix <= ${prixMax}`
+        });
+
+        return data.map((maison) => ({
+            ...maison,
+            imageUrl: pb.files.getURL(maison, maison.image)
+        }));
+    } catch (error) {
+        console.error('Erreur lors du filtrage des maisons:', error);
+        return [];
+    }
+}
 
 
 

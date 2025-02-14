@@ -1,0 +1,73 @@
+---
+import { addOffre } from "../../backend.mjs";
+let message = "";
+
+if (Astro.request.method === "POST") {
+    const formData = await Astro.request.formData();
+    const response = await addOffre(Object.fromEntries(formData));
+    message = response.message;
+}
+---
+
+<h1 class="text-lg font-semibold mb-4">Ajouter une offre</h1>
+
+{message && <p class="text-sm text-center text-red-500 mb-2">{message}</p>}
+
+<form
+    action="/offres/add"
+    method="POST"
+    enctype="multipart/form-data"
+    class="space-y-3 bg-gray-100 p-4 rounded-md shadow-md"
+>
+    <input
+        type="text"
+        name="nomMaison"
+        placeholder="Nom de la maison"
+        required
+        class="w-full p-2 border border-gray-300 rounded-md"
+    />
+    <input
+        type="number"
+        name="prix"
+        placeholder="Prix"
+        required
+        class="w-full p-2 border border-gray-300 rounded-md"
+        min="1"
+    />
+    <input
+        type="number"
+        name="nbSdb"
+        placeholder="Nombre de salles de bain"
+        required
+        class="w-full p-2 border border-gray-300 rounded-md"
+        min="0"
+    />
+    <input
+        type="number"
+        name="nbChambres"
+        placeholder="Nombre de chambres"
+        required
+        class="w-full p-2 border border-gray-300 rounded-md"
+        min="1"
+    />
+    <input
+        type="number"
+        name="surface"
+        placeholder="Superficie"
+        required
+        class="w-full p-2 border border-gray-300 rounded-md"
+        min="10"
+    />
+    <input
+        type="file"
+        name="image"
+        required
+        class="w-full p-2 border border-gray-300 rounded-md"
+    />
+
+    <button
+        type="submit"
+        class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition"
+        >Ajouter</button
+    >
+</form>
